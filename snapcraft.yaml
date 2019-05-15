@@ -1,0 +1,24 @@
+name: asdm
+version: '1.0'
+summary: Repackage Oracle Java Web Start
+description: >
+  Need Java Web Start to work for Cisco ASDM.
+
+base: core18
+confinement: devmode
+
+parts:
+  javaws:
+    plugin: dump
+    source: https://javadl.oracle.com/webapps/download/AutoDL?BundleId=238719_478a62b7d4e34b78b671c754eaaf38ab
+    source-type: tar
+    stage-packages:
+    - try:
+      - libcanberra-gtk-module
+
+apps:
+  asdm:
+    command: asdm
+    environment:
+      JAVA_HOME: $SNAP
+      PATH: $JAVA_HOME/bin:$PATH
