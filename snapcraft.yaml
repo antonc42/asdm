@@ -1,3 +1,4 @@
+---
 name: asdm
 version: '1.0'
 summary: Repackage Oracle Java Web Start
@@ -6,6 +7,7 @@ description: >
 
 base: core18
 confinement: devmode
+grade: devel
 
 parts:
   javaws:
@@ -13,8 +15,16 @@ parts:
     source: https://javadl.oracle.com/webapps/download/AutoDL?BundleId=238719_478a62b7d4e34b78b671c754eaaf38ab
     source-type: tar
     stage-packages:
-    - try:
-      - libcanberra-gtk-module
+      - libx11-6
+      - try:
+        - libcanberra-gtk-module
+  asdm:
+    plugin: dump
+    source: .
+    stage:
+      - asdm
+    prime: 
+      - asdm
 
 apps:
   asdm:
@@ -22,3 +32,11 @@ apps:
     environment:
       JAVA_HOME: $SNAP
       PATH: $JAVA_HOME/bin:$PATH
+      LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - unity7
+      - x11
+      - network
